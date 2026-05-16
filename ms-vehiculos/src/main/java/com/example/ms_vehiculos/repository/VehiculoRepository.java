@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface VehiculoRepository extends JpaRepository<Vehiculo, Integer> {
     // a lo que yo entendi, nos ayudamos de JpaRepository ya que esto es como una biblioteca que trae todas las funciones que necesitamos
     //el poner vehiculo es pq le explica a laragon con que tabla debe trabajar y el integer le indica cual es la clave primaria
-    
+
 }
