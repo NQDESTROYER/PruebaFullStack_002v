@@ -1,4 +1,4 @@
-package com.example.ms_empleados.repository;
+package com.example.ms_empleados.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
