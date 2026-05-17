@@ -1,5 +1,6 @@
 package com.example.ms_clientes.mapper;
 
+import com.example.ms_clientes.dto.ClienteResponseDTO;
 import com.example.ms_clientes.dto.ClientesRequestDTO;
 import com.example.ms_clientes.entity.Cliente;
 import org.springframework.stereotype.Component;
@@ -19,4 +20,20 @@ public class ClienteMapper {
                 .fechaNacimiento(dto.getFechaNacimiento())
                 .build();
     }
+
+    public ClienteResponseDTO toResponseDTO(Cliente entity){
+        if (entity==null){
+            return null;
+        }
+
+        return ClienteResponseDTO.builder()
+                .id(entity.getId()) // Aquí sí mapeamos el ID generado por la BD
+                .rut(entity.getRut())
+                .nombreCompleto(entity.getNombreCompleto())
+                .ingresoMensual(entity.getIngresoMensual())
+                .activo(entity.getActivo())
+                .fechaNacimiento(entity.getFechaNacimiento())
+                .build();
+    }
+
 }
