@@ -19,7 +19,7 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)// hace que sea auto incrementable el ID
     private Integer id;
-    
+
     //---5 atributos
     @Column(nullable = false, unique = true, length = 10)
     private String rut;
