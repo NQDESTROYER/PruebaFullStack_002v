@@ -1,0 +1,27 @@
+package com.example.ms_sucursales.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "sucursales")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Sucursal {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    // 5 atributos propios requeridos por la rúbrica
+    private String nombre;
+    private String direccion;
+    private Integer capacidadAutos;
+    private boolean operativa;
+    private LocalDateTime fechaApertura;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
+}
