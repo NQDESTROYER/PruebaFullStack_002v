@@ -25,7 +25,7 @@ public class MsReportesApplication {
                 repository.save(new Reporte(null, "Reporte Mensual de Ventas", "FINANZAS", 25, LocalDate.now().minusDays(5), true, "Análisis de ingresos por arriendo"));
                 repository.save(new Reporte(null, "Disponibilidad de Vehículos", "OPERACIONES", 120, LocalDate.now().minusDays(2), true, "Flota operativa total"));
                 repository.save(new Reporte(null, "Auditoría de Sucursales Activas", "ESTADISTICA", 8, LocalDate.now(), true, "Rendimiento geográfico de sedes"));
-                System.out.println("=== DATOS DE PRUEBA INYECTADOS SATISFACTORIAMENTE PARA LA RÚBRICA ===");
+
             }
         };
     }
