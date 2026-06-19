@@ -1,5 +1,6 @@
 package com.example.ms_sucursales.controller;
 
+import com.example.ms_sucursales.assemblers.SucursalModelAssembler;
 import com.example.ms_sucursales.dto.SucursalRequestDTO;
 import com.example.ms_sucursales.dto.SucursalResponseDTO;
 import com.example.ms_sucursales.service.SucursalService;
@@ -27,16 +28,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class SucursalController {
 
     private final SucursalService sucursalService;
+    private final SucursalModelAssembler assembler;
 
     @GetMapping
     @Operation(summary = "Listar todas las sucursales")
     @ApiResponse(responseCode = "200", description = "Lista de sucursales")
     public ResponseEntity<CollectionModel<EntityModel<SucursalResponseDTO>>> obtenerTodas() {
-        List<SucursalResponseDTO> dtos = sucursalService.listarTodas();
-
-        List<EntityModel<SucursalResponseDTO>> models = dtos.stream()
-                .map(dto -> EntityModel.of(dto,
-                        linkTo(methodOn(SucursalController.class).obtenerPorId(dto.getId())).withSelfRel()))
+        List<EntityModel<SucursalResponseDTO>> models = sucursalService.listarTodas().stream()
+                .map(assembler::toModel)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(CollectionModel.of(models,
@@ -47,11 +46,8 @@ public class SucursalController {
     @Operation(summary = "Listar sucursales operativas")
     @ApiResponse(responseCode = "200", description = "Lista de sucursales operativas")
     public ResponseEntity<CollectionModel<EntityModel<SucursalResponseDTO>>> obtenerOperativas() {
-        List<SucursalResponseDTO> dtos = sucursalService.listarOperativas();
-
-        List<EntityModel<SucursalResponseDTO>> models = dtos.stream()
-                .map(dto -> EntityModel.of(dto,
-                        linkTo(methodOn(SucursalController.class).obtenerPorId(dto.getId())).withSelfRel()))
+        List<EntityModel<SucursalResponseDTO>> models = sucursalService.listarOperativas().stream()
+                .map(assembler::toModel)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(CollectionModel.of(models));
@@ -63,17 +59,16 @@ public class SucursalController {
     @ApiResponse(responseCode = "404", description = "Sucursal no encontrada")
     public ResponseEntity<EntityModel<SucursalResponseDTO>> obtenerPorId(@PathVariable Integer id) {
         SucursalResponseDTO dto = sucursalService.obtenerPorId(id);
-        EntityModel<SucursalResponseDTO> model = EntityModel.of(dto);
-        model.add(linkTo(methodOn(SucursalController.class).obtenerPorId(id)).withSelfRel());
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(assembler.toModel(dto));
     }
 
     @PostMapping
     @Operation(summary = "Registrar nueva sucursal")
     @ApiResponse(responseCode = "201", description = "Sucursal creada")
     @ApiResponse(responseCode = "400", description = "Error de validación")
-    public ResponseEntity<SucursalResponseDTO> registrarNueva(@Valid @RequestBody SucursalRequestDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(sucursalService.crear(dto));
+    public ResponseEntity<EntityModel<SucursalResponseDTO>> registrarNueva(@Valid @RequestBody SucursalRequestDTO dto) {
+        SucursalResponseDTO created = sucursalService.crear(dto);
+        return new ResponseEntity<>(assembler.toModel(created), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -81,10 +76,11 @@ public class SucursalController {
     @ApiResponse(responseCode = "200", description = "Sucursal actualizada")
     @ApiResponse(responseCode = "400", description = "Error de validación")
     @ApiResponse(responseCode = "404", description = "Sucursal no encontrada")
-    public ResponseEntity<SucursalResponseDTO> modificarExistente(
+    public ResponseEntity<EntityModel<SucursalResponseDTO>> modificarExistente(
             @PathVariable Integer id,
             @Valid @RequestBody SucursalRequestDTO dto) {
-        return ResponseEntity.ok(sucursalService.actualizar(id, dto));
+        SucursalResponseDTO updated = sucursalService.actualizar(id, dto);
+        return ResponseEntity.ok(assembler.toModel(updated));
     }
 
     @DeleteMapping("/{id}")

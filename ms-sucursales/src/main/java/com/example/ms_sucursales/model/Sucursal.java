@@ -15,7 +15,7 @@ public class Sucursal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // 5 atributos propios requeridos por la rúbrica
+    // Atributos propios de la entidad
     private String nombre;
     private String direccion;
     private Integer capacidadAutos;

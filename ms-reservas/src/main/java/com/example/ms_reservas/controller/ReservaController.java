@@ -1,5 +1,6 @@
 package com.example.ms_reservas.controller;
 
+import com.example.ms_reservas.assemblers.ReservaModelAssembler;
 import com.example.ms_reservas.dto.ReservaRequestDTO;
 import com.example.ms_reservas.dto.ReservaResponseDTO;
 import com.example.ms_reservas.service.ReservaService;
@@ -29,33 +30,27 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class ReservaController {
 
     private final ReservaService service;
+    private final ReservaModelAssembler assembler;
 
     @GetMapping
     @Operation(summary = "Listar todas las reservas")
     @ApiResponse(responseCode = "200", description = "Lista de reservas")
     public ResponseEntity<CollectionModel<EntityModel<ReservaResponseDTO>>> obtenerTodas() {
-        List<ReservaResponseDTO> dtos = service.listarTodas();
-
-        List<EntityModel<ReservaResponseDTO>> models = dtos.stream()
-                .map(dto -> EntityModel.of(dto,
-                        linkTo(methodOn(ReservaController.class).obtenerPorId(dto.getId())).withSelfRel()))
+        List<EntityModel<ReservaResponseDTO>> models = service.listarTodas().stream()
+                .map(assembler::toModel)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(CollectionModel.of(models,
                 linkTo(methodOn(ReservaController.class).obtenerTodas()).withSelfRel()));
     }
 
-    // Endpoint adicional para probar la Query JPQL
     @GetMapping("/por-fecha")
     @Operation(summary = "Buscar reservas por fecha")
     @ApiResponse(responseCode = "200", description = "Lista de reservas por fecha")
     public ResponseEntity<CollectionModel<EntityModel<ReservaResponseDTO>>> obtenerPorFecha(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
-        List<ReservaResponseDTO> dtos = service.buscarDesdeFecha(fecha);
-
-        List<EntityModel<ReservaResponseDTO>> models = dtos.stream()
-                .map(dto -> EntityModel.of(dto,
-                        linkTo(methodOn(ReservaController.class).obtenerPorId(dto.getId())).withSelfRel()))
+        List<EntityModel<ReservaResponseDTO>> models = service.buscarDesdeFecha(fecha).stream()
+                .map(assembler::toModel)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(CollectionModel.of(models));
@@ -67,26 +62,26 @@ public class ReservaController {
     @ApiResponse(responseCode = "404", description = "Reserva no encontrada")
     public ResponseEntity<EntityModel<ReservaResponseDTO>> obtenerPorId(@PathVariable Integer id) {
         ReservaResponseDTO dto = service.obtenerPorId(id);
-        EntityModel<ReservaResponseDTO> model = EntityModel.of(dto);
-        model.add(linkTo(methodOn(ReservaController.class).obtenerPorId(id)).withSelfRel());
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(assembler.toModel(dto));
     }
 
     @PostMapping
     @Operation(summary = "Crear reserva")
     @ApiResponse(responseCode = "201", description = "Reserva creada")
     @ApiResponse(responseCode = "400", description = "Error de validación")
-    public ResponseEntity<ReservaResponseDTO> crear(@Valid @RequestBody ReservaRequestDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.crear(dto));
+    public ResponseEntity<EntityModel<ReservaResponseDTO>> crear(@Valid @RequestBody ReservaRequestDTO dto) {
+        ReservaResponseDTO created = service.crear(dto);
+        return new ResponseEntity<>(assembler.toModel(created), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar reserva")
     @ApiResponse(responseCode = "200", description = "Reserva actualizada")
     @ApiResponse(responseCode = "400", description = "Error de validación")
-    @ApiResponse(responseCode = "404", description = "Reserva no encontrada")
-    public ResponseEntity<ReservaResponseDTO> actualizar(@PathVariable Integer id, @Valid @RequestBody ReservaRequestDTO dto) {
-        return ResponseEntity.ok(service.actualizar(id, dto));
+    @ApiResponse(responseCode = "404", description = "Reserva no encontrado")
+    public ResponseEntity<EntityModel<ReservaResponseDTO>> actualizar(@PathVariable Integer id, @Valid @RequestBody ReservaRequestDTO dto) {
+        ReservaResponseDTO updated = service.actualizar(id, dto);
+        return ResponseEntity.ok(assembler.toModel(updated));
     }
 
     @DeleteMapping("/{id}")

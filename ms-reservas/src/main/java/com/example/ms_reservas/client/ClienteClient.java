@@ -4,8 +4,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-// Apunta al microservicio de tu compañero (ms-clientes) en el puerto 8081
-@FeignClient(name = "ms-clientes", url = "http://localhost:8081/api/v1/clientes")
+// Cliente Feign para el microservicio ms-clientes
+@FeignClient(name = "ms-clientes", path = "/api/clientes")
 public interface ClienteClient {
 
     @GetMapping("/{id}")

@@ -18,7 +18,7 @@ spring:
         - id: ms-empleados-route
           uri: lb://ms-empleados
           predicates:
-            - Path=/api/empleados/**
+            - Path=/api/v1/empleados/**
 
         - id: ms-pagos-route
           uri: lb://ms-pagos
@@ -28,17 +28,17 @@ spring:
         - id: ms-reportes-route
           uri: lb://ms-reportes
           predicates:
-            - Path=/api/reportes/**
+            - Path=/api/v1/reportes/**
 
         - id: ms-reservas-route
           uri: lb://ms-reservas
           predicates:
-            - Path=/api/reservas/**
+            - Path=/api/v1/reservas/**, /api/v1/estados-reserva/**
 
         - id: ms-sucursales-route
           uri: lb://ms-sucursales
           predicates:
-            - Path=/api/sucursales/**
+            - Path=/api/v1/sucursales/**
 
         - id: ms-vehiculos-route
           uri: lb://ms-vehiculos

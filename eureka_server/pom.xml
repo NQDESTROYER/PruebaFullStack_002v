@@ -12,7 +12,7 @@
 	<artifactId>eureka-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>eureka-server</name>
-	<description>Servidor de Descubrimiento Eureka - DSY1103</description>
+	<description>Servidor de Descubrimiento Eureka</description>
 
 	<properties>
 		<java.version>17</java.version>

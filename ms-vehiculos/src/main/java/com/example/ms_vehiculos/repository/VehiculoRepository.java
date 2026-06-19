@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface VehiculoRepository extends JpaRepository<Vehiculo, Integer> {
-    // Rúbrica: Obtener vehículos disponibles y precio diario menor a valor indicado
+    // Obtener vehículos disponibles y precio diario menor a valor indicado
     List<Vehiculo> findByDisponibleTrueAndPrecioDiarioLessThan(Double precioMaximo);
 }

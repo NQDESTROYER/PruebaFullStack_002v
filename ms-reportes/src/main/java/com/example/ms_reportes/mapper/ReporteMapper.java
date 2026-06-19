@@ -1,24 +1,24 @@
 package com.example.ms_reportes.mapper;
 
-import com.example.ms_reportes.dto.ReporteDTO;
+import com.example.ms_reportes.dto.ReporteResponseDTO;
 import com.example.ms_reportes.dto.ReporteRequestDTO;
-import com.example.ms_.model.Reporte;
+import com.example.ms_reportes.entity.Reporte;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ReporteMapper {
 
-    public ReporteDTO toDTO(Reporte entity) {
+    public ReporteResponseDTO toResponseDTO(Reporte entity) {
         if (entity == null) return null;
-        ReporteDTO dto = new ReporteDTO();
-        dto.setId(entity.getId());
-        dto.setNombreReporte(entity.getNombreReporte());
-        dto.setCategoria(entity.getCategoria());
-        dto.setTotalRegistros(entity.getTotalRegistros());
-        dto.setDescription(entity.getDescription());
-        dto.setFechaEmision(entity.getFechaEmision());
-        dto.setProcesado(entity.getProcesado());
-        return dto;
+        return ReporteResponseDTO.builder()
+                .id(entity.getId())
+                .nombreReporte(entity.getNombreReporte())
+                .categoria(entity.getCategoria())
+                .totalRegistros(entity.getTotalRegistros())
+                .description(entity.getDescription())
+                .fechaEmision(entity.getFechaEmision())
+                .procesado(entity.getProcesado())
+                .build();
     }
 
     public Reporte toEntity(ReporteRequestDTO dto) {
@@ -33,4 +33,3 @@ public class ReporteMapper {
         return entity;
     }
 }
-

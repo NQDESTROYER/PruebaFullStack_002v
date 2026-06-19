@@ -3,7 +3,7 @@ package com.example.ms_reportes.service;
 import com.example.ms_reportes.client.PagoClient;
 import com.example.ms_reportes.client.ReservaClient;
 import com.example.ms_reportes.dto.*;
-import com.example.ms_.model.Reporte;
+import com.example.ms_reportes.entity.Reporte;
 import com.example.ms_reportes.exception.ResourceNotFoundException;
 import com.example.ms_reportes.mapper.ReporteMapper;
 import com.example.ms_reportes.repository.ReporteRepository;
@@ -67,42 +67,42 @@ public class ReporteServiceImpl implements ReporteService {
     }
 
     @Override
-    public List<ReporteDTO> obtenerTodos() {
+    public List<ReporteResponseDTO> obtenerTodos() {
         log.info("Ejecutando findAll() para listar todos los reportes.");
         return reporteRepository.findAll().stream()
-                .map(reporteMapper::toDTO)
+                .map(reporteMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ReporteDTO obtenerPorId(Integer id) {
+    public ReporteResponseDTO obtenerPorId(Integer id) {
         log.info("Ejecutando findById() para el ID: {}", id);
         Reporte reporte = reporteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Reporte no encontrado con el ID: " + id));
-        return reporteMapper.toDTO(reporte);
+        return reporteMapper.toResponseDTO(reporte);
     }
 
     @Override
-    public ReporteDTO crear(ReporteRequestDTO dto) {
+    public ReporteResponseDTO crear(ReporteRequestDTO dto) {
         log.info("Ejecutando save() para almacenar un nuevo reporte.");
         Reporte nuevo = reporteMapper.toEntity(dto);
-        return reporteMapper.toDTO(reporteRepository.save(nuevo));
+        return reporteMapper.toResponseDTO(reporteRepository.save(nuevo));
     }
 
     @Override
-    public ReporteDTO actualizar(Integer id, ReporteRequestDTO dto) {
+    public ReporteResponseDTO actualizar(Integer id, ReporteRequestDTO dto) {
         log.info("Ejecutando actualización (PUT) del reporte con ID: {}", id);
         Reporte existente = reporteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No se puede actualizar. ID no existe: " + id));
 
-        // Seteo explícito de campos individuales requerido por rúbrica [cite: 72]
+        // Seteo explícito de campos individuales
         existente.setNombreReporte(dto.getNombreReporte());
         existente.setCategoria(dto.getCategoria());
         existente.setTotalRegistros(dto.getTotalRegistros());
         existente.setDescription(dto.getDescription());
         existente.setFechaEmision(dto.getFechaEmision());
 
-        return reporteMapper.toDTO(reporteRepository.save(existente));
+        return reporteMapper.toResponseDTO(reporteRepository.save(existente));
     }
 
     @Override
@@ -113,4 +113,3 @@ public class ReporteServiceImpl implements ReporteService {
         reporteRepository.delete(existente);
     }
 }
-

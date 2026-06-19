@@ -1,6 +1,6 @@
 package com.example.ms_reportes;
 
-import com.example.ms_.model.Reporte;
+import com.example.ms_reportes.entity.Reporte;
 import com.example.ms_reportes.repository.ReporteRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

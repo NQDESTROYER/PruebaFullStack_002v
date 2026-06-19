@@ -1,5 +1,6 @@
 package com.example.ms_clientes.controller;
 
+import com.example.ms_clientes.assemblers.ClienteModelAssembler;
 import com.example.ms_clientes.dto.ClienteResponseDTO;
 import com.example.ms_clientes.dto.ClientesRequestDTO;
 import com.example.ms_clientes.service.IClienteService;
@@ -26,14 +27,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @Tag(name = "Clientes", description = "Gestión de Clientes")
 public class ClienteController {
     private final IClienteService clienteService;
+    private final ClienteModelAssembler assembler;
 
     // 1. CREAR CLIENTE (POST)
     @PostMapping
     @Operation(summary = "Crear cliente", description = "Crea un nuevo cliente")
     @ApiResponse(responseCode = "201", description = "Cliente creado")
     @ApiResponse(responseCode = "400", description = "Error de validación")
-    public ResponseEntity<ClienteResponseDTO> crear(@Valid @RequestBody ClientesRequestDTO dto) {
-        return new ResponseEntity<>(clienteService.crear(dto), HttpStatus.CREATED);
+    public ResponseEntity<EntityModel<ClienteResponseDTO>> crear(@Valid @RequestBody ClientesRequestDTO dto) {
+        ClienteResponseDTO created = clienteService.crear(dto);
+        return new ResponseEntity<>(assembler.toModel(created), HttpStatus.CREATED);
     }
 
     // 2. BUSCAR POR ID (GET)
@@ -43,9 +46,7 @@ public class ClienteController {
     @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     public ResponseEntity<EntityModel<ClienteResponseDTO>> buscarPorId(@PathVariable Integer id) {
         ClienteResponseDTO dto = clienteService.buscarPorId(id);
-        EntityModel<ClienteResponseDTO> model = EntityModel.of(dto);
-        model.add(linkTo(methodOn(ClienteController.class).buscarPorId(id)).withSelfRel());
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(assembler.toModel(dto));
     }
 
     // 3. LISTAR TODOS (GET)
@@ -53,11 +54,8 @@ public class ClienteController {
     @Operation(summary = "Listar todos los clientes")
     @ApiResponse(responseCode = "200", description = "Lista de clientes")
     public ResponseEntity<CollectionModel<EntityModel<ClienteResponseDTO>>> listarTodos() {
-        List<ClienteResponseDTO> dtos = clienteService.listarTodos();
-        
-        List<EntityModel<ClienteResponseDTO>> models = dtos.stream()
-                .map(dto -> EntityModel.of(dto, 
-                        linkTo(methodOn(ClienteController.class).buscarPorId(dto.getId())).withSelfRel()))
+        List<EntityModel<ClienteResponseDTO>> models = clienteService.listarTodos().stream()
+                .map(assembler::toModel)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(CollectionModel.of(models, 
@@ -70,8 +68,9 @@ public class ClienteController {
     @ApiResponse(responseCode = "200", description = "Cliente actualizado")
     @ApiResponse(responseCode = "400", description = "Error de validación")
     @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
-    public ResponseEntity<ClienteResponseDTO> actualizar(@PathVariable Integer id, @Valid @RequestBody ClientesRequestDTO dto) {
-        return ResponseEntity.ok(clienteService.actualizar(id, dto));
+    public ResponseEntity<EntityModel<ClienteResponseDTO>> actualizar(@PathVariable Integer id, @Valid @RequestBody ClientesRequestDTO dto) {
+        ClienteResponseDTO updated = clienteService.actualizar(id, dto);
+        return ResponseEntity.ok(assembler.toModel(updated));
     }
 
     // 5. ELIMINAR CLIENTE (DELETE)
@@ -83,5 +82,4 @@ public class ClienteController {
         clienteService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
-
 }

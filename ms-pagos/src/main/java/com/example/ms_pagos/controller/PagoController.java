@@ -1,11 +1,14 @@
 package com.example.ms_pagos.controller;
 
-import com.example.ms_pagos.model.Pago;
+import com.example.ms_pagos.assemblers.PagoModelAssembler;
+import com.example.ms_pagos.dto.PagoRequestDTO;
+import com.example.ms_pagos.dto.PagoResponseDTO;
 import com.example.ms_pagos.service.PagoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -20,23 +23,18 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/api/pagos")
 @Tag(name = "Pagos", description = "Gestión de Pagos")
+@RequiredArgsConstructor
 public class PagoController {
 
     private final PagoService pagoService;
-
-    public PagoController(PagoService pagoService) {
-        this.pagoService = pagoService;
-    }
+    private final PagoModelAssembler assembler;
 
     @GetMapping
     @Operation(summary = "Listar todos los pagos")
     @ApiResponse(responseCode = "200", description = "Lista de pagos")
-    public ResponseEntity<CollectionModel<EntityModel<Pago>>> listarTodos() {
-        List<Pago> pagos = pagoService.obtenerTodos();
-
-        List<EntityModel<Pago>> models = pagos.stream()
-                .map(pago -> EntityModel.of(pago,
-                        linkTo(methodOn(PagoController.class).buscarPorId(pago.getId())).withSelfRel()))
+    public ResponseEntity<CollectionModel<EntityModel<PagoResponseDTO>>> listarTodos() {
+        List<EntityModel<PagoResponseDTO>> models = pagoService.obtenerTodos().stream()
+                .map(assembler::toModel)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(CollectionModel.of(models,
@@ -47,19 +45,17 @@ public class PagoController {
     @Operation(summary = "Buscar pago por ID")
     @ApiResponse(responseCode = "200", description = "Pago encontrado")
     @ApiResponse(responseCode = "404", description = "Pago no encontrado")
-    public ResponseEntity<EntityModel<Pago>> buscarPorId(@PathVariable Integer id) {
-        Pago pago = pagoService.obtenerPorId(id);
-        EntityModel<Pago> model = EntityModel.of(pago);
-        model.add(linkTo(methodOn(PagoController.class).buscarPorId(id)).withSelfRel());
-        return ResponseEntity.ok(model);
+    public ResponseEntity<EntityModel<PagoResponseDTO>> buscarPorId(@PathVariable Integer id) {
+        PagoResponseDTO dto = pagoService.obtenerPorId(id);
+        return ResponseEntity.ok(assembler.toModel(dto));
     }
 
     @PostMapping
     @Operation(summary = "Crear pago")
     @ApiResponse(responseCode = "201", description = "Pago creado")
     @ApiResponse(responseCode = "400", description = "Error de validación")
-    public ResponseEntity<Pago> crearPago(@Valid @RequestBody Pago pago) {
-        Pago nuevoPago = pagoService.registrarPago(pago);
-        return new ResponseEntity<>(nuevoPago, HttpStatus.CREATED);
+    public ResponseEntity<EntityModel<PagoResponseDTO>> crearPago(@Valid @RequestBody PagoRequestDTO dto) {
+        PagoResponseDTO nuevoPago = pagoService.registrarPago(dto);
+        return new ResponseEntity<>(assembler.toModel(nuevoPago), HttpStatus.CREATED);
     }
 }

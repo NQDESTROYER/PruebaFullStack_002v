@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
-@FeignClient(name = "ms-reservas")
+@FeignClient(name = "ms-reservas", path = "/api/v1/reservas")
 public interface ReservaClient {
 
     @GetMapping

@@ -16,7 +16,7 @@ public class Region {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // 5 atributos propios requeridos por la rúbrica
+    // Atributos propios de la entidad
     private String nombreRegion;
     private String codigoIso;
     private Integer numeroComunas;

@@ -1,5 +1,6 @@
 package com.example.ms_vehiculos.controller;
 
+import com.example.ms_vehiculos.assemblers.VehiculoModelAssembler;
 import com.example.ms_vehiculos.dto.VehiculoRequestDTO;
 import com.example.ms_vehiculos.dto.VehiculosResponseDTO;
 import com.example.ms_vehiculos.service.IVehiculoService;
@@ -27,25 +28,23 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class VehiculoController {
 
     private final IVehiculoService vehiculoService;
+    private final VehiculoModelAssembler assembler;
 
     @PostMapping
     @Operation(summary = "Crear vehículo")
     @ApiResponse(responseCode = "201", description = "Vehículo creado")
     @ApiResponse(responseCode = "400", description = "Error de validación")
-    public ResponseEntity<VehiculosResponseDTO> crear(@Valid @RequestBody VehiculoRequestDTO dto){
+    public ResponseEntity<EntityModel<VehiculosResponseDTO>> crear(@Valid @RequestBody VehiculoRequestDTO dto){
         VehiculosResponseDTO nuevoVehiculo = vehiculoService.crear(dto);
-        return new ResponseEntity<>(nuevoVehiculo, HttpStatus.CREATED);
+        return new ResponseEntity<>(assembler.toModel(nuevoVehiculo), HttpStatus.CREATED);
     }
 
     @GetMapping
     @Operation(summary = "Listar todos los vehículos")
     @ApiResponse(responseCode = "200", description = "Lista de vehículos")
     public ResponseEntity<CollectionModel<EntityModel<VehiculosResponseDTO>>> listarTodos() {
-        List<VehiculosResponseDTO> dtos = vehiculoService.listarTodos();
-        
-        List<EntityModel<VehiculosResponseDTO>> models = dtos.stream()
-                .map(dto -> EntityModel.of(dto, 
-                        linkTo(methodOn(VehiculoController.class).buscarPorId(dto.getId())).withSelfRel()))
+        List<EntityModel<VehiculosResponseDTO>> models = vehiculoService.listarTodos().stream()
+                .map(assembler::toModel)
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(CollectionModel.of(models, 
@@ -58,9 +57,7 @@ public class VehiculoController {
     @ApiResponse(responseCode = "404", description = "Vehículo no encontrado")
     public ResponseEntity<EntityModel<VehiculosResponseDTO>> buscarPorId(@PathVariable Integer id) {
         VehiculosResponseDTO vehiculo = vehiculoService.buscarPorId(id);
-        EntityModel<VehiculosResponseDTO> model = EntityModel.of(vehiculo);
-        model.add(linkTo(methodOn(VehiculoController.class).buscarPorId(id)).withSelfRel());
-        return ResponseEntity.ok(model);
+        return ResponseEntity.ok(assembler.toModel(vehiculo));
     }
 
     @PutMapping("/{id}")
@@ -68,9 +65,9 @@ public class VehiculoController {
     @ApiResponse(responseCode = "200", description = "Vehículo actualizado")
     @ApiResponse(responseCode = "400", description = "Error de validación")
     @ApiResponse(responseCode = "404", description = "Vehículo no encontrado")
-    public ResponseEntity<VehiculosResponseDTO> actualizar(@PathVariable Integer id, @Valid @RequestBody VehiculoRequestDTO dto) {
+    public ResponseEntity<EntityModel<VehiculosResponseDTO>> actualizar(@PathVariable Integer id, @Valid @RequestBody VehiculoRequestDTO dto) {
         VehiculosResponseDTO vehiculoActualizado = vehiculoService.actualizar(id, dto);
-        return ResponseEntity.ok(vehiculoActualizado);
+        return ResponseEntity.ok(assembler.toModel(vehiculoActualizado));
     }
 
     @DeleteMapping("/{id}")

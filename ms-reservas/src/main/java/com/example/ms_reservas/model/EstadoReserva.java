@@ -33,7 +33,7 @@ public class EstadoReserva {
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDate fechaCreacion;
 
-    // Relación OneToMany exigida por la rúbrica
+    // Relación OneToMany
     @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
     private List<Reserva> reservas;
 }

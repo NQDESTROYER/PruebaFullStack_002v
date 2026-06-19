@@ -1,4 +1,4 @@
-package com.example.ms_.model;
+package com.example.ms_reportes.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

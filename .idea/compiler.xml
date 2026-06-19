@@ -7,21 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ms-reportes" />
         <module name="ms-reservas" />
         <module name="ms-sucursales" />
-        <module name="ms-pagos" />
-      </profile>
-      <profile name="Annotation profile for ms-vehiculos" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
-        </processorPath>
-        <module name="ms-vehiculos" />
+        <module name="ms-reportes" />
         <module name="ms-clientes" />
         <module name="ms-empleados" />
+        <module name="ms-pagos" />
+        <module name="ms-vehiculos" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />
