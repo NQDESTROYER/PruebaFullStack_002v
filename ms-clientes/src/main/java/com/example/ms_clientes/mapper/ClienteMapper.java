@@ -2,7 +2,7 @@ package com.example.ms_clientes.mapper;
 
 import com.example.ms_clientes.dto.ClienteResponseDTO;
 import com.example.ms_clientes.dto.ClientesRequestDTO;
-import com.example.ms_clientes.entity.Cliente;
+import com.example.ms_clientes.model.Cliente;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,7 +31,7 @@ public class ClienteMapper {
                 .rut(entity.getRut())
                 .nombreCompleto(entity.getNombreCompleto())
                 .ingresoMensual(entity.getIngresoMensual())
-                .activo(entity.getActivo())
+                .activo(entity.isActivo())
                 .fechaNacimiento(entity.getFechaNacimiento())
                 .build();
     }

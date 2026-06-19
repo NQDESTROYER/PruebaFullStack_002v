@@ -2,7 +2,7 @@ package com.example.ms_reservas.service;
 
 import com.example.ms_reservas.dto.EstadoReservaRequestDTO;
 import com.example.ms_reservas.dto.EstadoReservaResponseDTO;
-import com.example.ms_reservas.entity.EstadoReserva;
+import com.example.ms_reservas.model.EstadoReserva;
 import com.example.ms_reservas.exception.ResourceNotFoundException;
 import com.example.ms_reservas.mapper.EstadoReservaMapper;
 import com.example.ms_reservas.repository.EstadoReservaRepository;
@@ -61,3 +61,4 @@ public class EstadoReservaServiceImpl implements EstadoReservaService {
         repository.deleteById(id);
     }
 }
+

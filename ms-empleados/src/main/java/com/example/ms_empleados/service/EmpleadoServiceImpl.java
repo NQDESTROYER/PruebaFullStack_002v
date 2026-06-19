@@ -2,7 +2,7 @@ package com.example.ms_empleados.service;
 
 import com.example.ms_empleados.dto.EmpleadoRequestDTO;
 import com.example.ms_empleados.dto.EmpleadoResponseDTO;
-import com.example.ms_empleados.entity.Empleado;
+import com.example.ms_empleados.model.Empleado;
 import com.example.ms_empleados.exception.ResourceNotFoundException;
 import com.example.ms_empleados.mapper.EmpleadoMapper;
 import com.example.ms_empleados.repository.EmpleadoRepository;
@@ -70,3 +70,4 @@ public class EmpleadoServiceImpl implements IEmpleadoService {
         repository.delete(empleado);
     }
 }
+

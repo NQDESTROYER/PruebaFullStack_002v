@@ -1,6 +1,6 @@
 package com.example.ms_pagos.service;
 
-import com.example.ms_pagos.entity.Pago;
+import com.example.ms_pagos.model.Pago;
 import java.util.List;
 
 public interface PagoService {

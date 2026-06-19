@@ -2,7 +2,7 @@ package com.example.ms_pagos.service;
 
 import com.example.ms_pagos.client.ReservaClient;
 import com.example.ms_pagos.dto.ReservaDTO;
-import com.example.ms_pagos.entity.Pago;
+import com.example.ms_pagos.model.Pago;
 import com.example.ms_pagos.repository.PagoRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;

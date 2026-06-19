@@ -13,3 +13,4 @@ public class SucursalResponseDTO {
     private LocalDateTime fechaApertura;
     private Integer regionId;
 }
+

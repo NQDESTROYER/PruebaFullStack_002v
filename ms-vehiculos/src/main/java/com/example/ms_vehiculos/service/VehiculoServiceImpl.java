@@ -2,7 +2,7 @@ package com.example.ms_vehiculos.service;
 
 import com.example.ms_vehiculos.dto.VehiculoRequestDTO;
 import com.example.ms_vehiculos.dto.VehiculosResponseDTO;
-import com.example.ms_vehiculos.entity.Vehiculo;
+import com.example.ms_vehiculos.model.Vehiculo;
 import com.example.ms_vehiculos.exception.ResourceNotFoundException;
 import com.example.ms_vehiculos.mapper.VehiculoMapper;
 import com.example.ms_vehiculos.repository.VehiculoRepository;
@@ -69,3 +69,4 @@ public class VehiculoServiceImpl implements IVehiculoService {
     }
 
 }
+

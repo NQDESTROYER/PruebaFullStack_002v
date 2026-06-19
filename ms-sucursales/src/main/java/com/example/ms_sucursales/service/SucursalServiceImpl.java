@@ -2,8 +2,8 @@ package com.example.ms_sucursales.service;
 
 import com.example.ms_sucursales.dto.SucursalRequestDTO;
 import com.example.ms_sucursales.dto.SucursalResponseDTO;
-import com.example.ms_sucursales.entity.Region;
-import com.example.ms_sucursales.entity.Sucursal;
+import com.example.ms_sucursales.model.Region;
+import com.example.ms_sucursales.model.Sucursal;
 import com.example.ms_sucursales.exception.ResourceNotFoundException;
 import com.example.ms_sucursales.mapper.SucursalMapper;
 import com.example.ms_sucursales.repository.RegionRepository;
@@ -94,3 +94,5 @@ public class SucursalServiceImpl implements SucursalService {
         sucursalRepository.deleteById(id);
     }
 }
+
+

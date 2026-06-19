@@ -2,7 +2,7 @@ package com.example.ms_empleados.mapper;
 
 import com.example.ms_empleados.dto.EmpleadoRequestDTO;
 import com.example.ms_empleados.dto.EmpleadoResponseDTO;
-import com.example.ms_empleados.entity.Empleado;
+import com.example.ms_empleados.model.Empleado;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -34,3 +34,4 @@ public class EmpleadoMapper {
                 .build();
     }
 }
+

@@ -22,8 +22,8 @@ public class VehiculoRequestDTO {
     private String marca;
 
     @NotNull(message = "El precio diario es obligatorio")
-    @Min(value = 1, message = "El precio diario debe ser mayor a 0")
-    private Integer precioDiario;
+    @DecimalMin(value = "0.01", message = "El precio diario debe ser mayor a 0")
+    private Double precioDiario;
 
     // Al ser un booleano primitivo no puede ser null, por defecto es false, pero validamos que venga el campo
     @NotNull(message = "El estado de disponibilidad es obligatorio")

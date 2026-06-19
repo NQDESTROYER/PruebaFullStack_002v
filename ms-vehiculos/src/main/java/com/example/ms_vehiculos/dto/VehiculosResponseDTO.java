@@ -17,7 +17,7 @@ public class VehiculosResponseDTO {
     private Integer id;//-- el cliente necesita ver su id
     private String patente;
     private String marca;
-    private Integer precioDiario;
+    private Double precioDiario;
     private boolean disponible;
     private LocalDate fechaIngreso;
 }

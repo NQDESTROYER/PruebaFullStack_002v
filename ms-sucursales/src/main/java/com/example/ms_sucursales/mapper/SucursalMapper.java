@@ -2,7 +2,7 @@ package com.example.ms_sucursales.mapper;
 
 import com.example.ms_sucursales.dto.SucursalRequestDTO;
 import com.example.ms_sucursales.dto.SucursalResponseDTO;
-import com.example.ms_sucursales.entity.Sucursal;
+import com.example.ms_sucursales.model.Sucursal;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -34,3 +34,5 @@ public class SucursalMapper {
         return dto;
     }
 }
+
+

@@ -1,11 +1,13 @@
 package com.example.ms_clientes.repository;
 
-import com.example.ms_clientes.entity.Cliente;
+import com.example.ms_clientes.model.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
-    // Al heredar de JpaRepository, Spring nos regala automáticamente
-    // todos los métodos del CRUD: save(), findById(), findAll(), deleteById(), etc
+    // Rúbrica: Buscar todos los clientes cuyo email contenga un texto dado, sin distinguir mayúsculas ni minúsculas.
+    List<Cliente> findByEmailContainingIgnoreCase(String email);
 }

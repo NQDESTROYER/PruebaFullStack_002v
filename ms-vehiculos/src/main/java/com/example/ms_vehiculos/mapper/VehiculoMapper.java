@@ -2,7 +2,7 @@ package com.example.ms_vehiculos.mapper;
 
 import com.example.ms_vehiculos.dto.VehiculoRequestDTO;
 import com.example.ms_vehiculos.dto.VehiculosResponseDTO;
-import com.example.ms_vehiculos.entity.Vehiculo;
+import com.example.ms_vehiculos.model.Vehiculo;
 import org.springframework.stereotype.Component;
 
 @Component//--esta clase es un componente reutilizable
@@ -35,4 +35,5 @@ public class VehiculoMapper {
                 .build();
         }
     }
+
 

@@ -28,3 +28,4 @@ public class SucursalRequestDTO {
     @NotNull(message = "El ID de la región es obligatorio")
     private Integer regionId;
 }
+

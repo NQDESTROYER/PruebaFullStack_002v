@@ -2,7 +2,7 @@ package com.example.ms_reservas.mapper;
 
 import com.example.ms_reservas.dto.ReservaRequestDTO;
 import com.example.ms_reservas.dto.ReservaResponseDTO;
-import com.example.ms_reservas.entity.Reserva;
+import com.example.ms_reservas.model.Reserva;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -39,3 +39,4 @@ public class ReservaMapper {
         return dto;
     }
 }
+

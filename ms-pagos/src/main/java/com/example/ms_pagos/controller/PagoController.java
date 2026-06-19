@@ -1,6 +1,6 @@
 package com.example.ms_pagos.controller;
 
-import com.example.ms_pagos.entity.Pago;
+import com.example.ms_pagos.model.Pago;
 import com.example.ms_pagos.service.PagoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

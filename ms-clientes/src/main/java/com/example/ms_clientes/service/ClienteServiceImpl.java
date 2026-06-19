@@ -2,7 +2,7 @@ package com.example.ms_clientes.service;
 
 import com.example.ms_clientes.dto.ClienteResponseDTO;
 import com.example.ms_clientes.dto.ClientesRequestDTO;
-import com.example.ms_clientes.entity.Cliente;
+import com.example.ms_clientes.model.Cliente;
 import com.example.ms_clientes.exception.ResourceNotFoundException;
 import com.example.ms_clientes.mapper.ClienteMapper;
 import com.example.ms_clientes.repository.ClienteRepository;
@@ -49,7 +49,7 @@ public class ClienteServiceImpl implements IClienteService{
         clienteExistente.setRut(dto.getRut());
         clienteExistente.setNombreCompleto(dto.getNombreCompleto());
         clienteExistente.setIngresoMensual(dto.getIngresoMensual());
-        clienteExistente.setActivo(dto.getActivo());
+        clienteExistente.setActivo(dto.getActivo() != null ? dto.getActivo() : true);
         clienteExistente.setFechaNacimiento(dto.getFechaNacimiento());
 
         Cliente actualizado = clienteRepository.save(clienteExistente);

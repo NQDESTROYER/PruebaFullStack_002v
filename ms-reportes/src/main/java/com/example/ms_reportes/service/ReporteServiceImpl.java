@@ -3,7 +3,7 @@ package com.example.ms_reportes.service;
 import com.example.ms_reportes.client.PagoClient;
 import com.example.ms_reportes.client.ReservaClient;
 import com.example.ms_reportes.dto.*;
-import com.example.ms_reportes.entity.Reporte;
+import com.example.ms_.model.Reporte;
 import com.example.ms_reportes.exception.ResourceNotFoundException;
 import com.example.ms_reportes.mapper.ReporteMapper;
 import com.example.ms_reportes.repository.ReporteRepository;
@@ -113,3 +113,4 @@ public class ReporteServiceImpl implements ReporteService {
         reporteRepository.delete(existente);
     }
 }
+

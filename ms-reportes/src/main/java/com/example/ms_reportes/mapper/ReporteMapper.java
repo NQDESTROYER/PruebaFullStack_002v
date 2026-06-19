@@ -2,7 +2,7 @@ package com.example.ms_reportes.mapper;
 
 import com.example.ms_reportes.dto.ReporteDTO;
 import com.example.ms_reportes.dto.ReporteRequestDTO;
-import com.example.ms_reportes.entity.Reporte;
+import com.example.ms_.model.Reporte;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,3 +33,4 @@ public class ReporteMapper {
         return entity;
     }
 }
+

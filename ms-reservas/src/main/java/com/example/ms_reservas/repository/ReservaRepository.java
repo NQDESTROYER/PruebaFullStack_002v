@@ -1,6 +1,6 @@
 package com.example.ms_reservas.repository;
 
-import com.example.ms_reservas.entity.Reserva;
+import com.example.ms_reservas.model.Reserva;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,3 +16,4 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     @Query("SELECT r FROM Reserva r WHERE r.fechaInicio >= :fecha ORDER BY r.fechaInicio DESC")
     List<Reserva> buscarDesdeFecha(@Param("fecha") LocalDate fecha);
 }
+

@@ -2,7 +2,7 @@ package com.example.ms_reservas.mapper;
 
 import com.example.ms_reservas.dto.EstadoReservaRequestDTO;
 import com.example.ms_reservas.dto.EstadoReservaResponseDTO;
-import com.example.ms_reservas.entity.EstadoReserva;
+import com.example.ms_reservas.model.EstadoReserva;
 import org.springframework.stereotype.Component;
 
 @Component

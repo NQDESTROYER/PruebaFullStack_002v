@@ -4,8 +4,8 @@ import com.example.ms_reservas.client.ClienteClient;
 import com.example.ms_reservas.client.VehiculoClient;
 import com.example.ms_reservas.dto.ReservaRequestDTO;
 import com.example.ms_reservas.dto.ReservaResponseDTO;
-import com.example.ms_reservas.entity.EstadoReserva;
-import com.example.ms_reservas.entity.Reserva;
+import com.example.ms_reservas.model.EstadoReserva;
+import com.example.ms_reservas.model.Reserva;
 import com.example.ms_reservas.exception.ResourceNotFoundException;
 import com.example.ms_reservas.mapper.ReservaMapper;
 import com.example.ms_reservas.repository.EstadoReservaRepository;
@@ -117,3 +117,4 @@ public class ReservaServiceImpl implements ReservaService {
         reservaRepository.deleteById(id);
     }
 }
+

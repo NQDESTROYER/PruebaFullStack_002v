@@ -1,4 +1,4 @@
-package com.example.ms_clientes.entity;
+package com.example.ms_.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -36,3 +36,4 @@ public class Cliente {
     @Column(nullable = false)
     private LocalDate fechaNacimiento;
 }
+

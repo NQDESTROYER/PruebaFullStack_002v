@@ -12,3 +12,4 @@ public interface SucursalService {
     SucursalResponseDTO actualizar(Integer id, SucursalRequestDTO dto);
     void eliminar(Integer id);
 }
+
