@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="api-gateway" target="17" />
+      <module name="eureka-server" target="17" />
+      <module name="ms-clientes" target="17" />
+      <module name="ms-empleados" target="17" />
+      <module name="ms-pagos" target="17" />
+      <module name="ms-reportes" target="17" />
+      <module name="ms-reservas" target="17" />
+      <module name="ms-sucursales" target="17" />
+      <module name="ms-vehiculos" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
