@@ -14,36 +14,70 @@ spring:
           uri: lb://ms-clientes
           predicates:
             - Path=/api/clientes/**
+          filters:
+            - RewritePath=/api/clientes/v3/api-docs, /v3/api-docs
 
         - id: ms-empleados-route
           uri: lb://ms-empleados
           predicates:
             - Path=/api/v1/empleados/**
+          filters:
+            - RewritePath=/api/v1/empleados/v3/api-docs, /v3/api-docs
 
         - id: ms-pagos-route
           uri: lb://ms-pagos
           predicates:
             - Path=/api/pagos/**
+          filters:
+            - RewritePath=/api/pagos/v3/api-docs, /v3/api-docs
 
         - id: ms-reportes-route
           uri: lb://ms-reportes
           predicates:
             - Path=/api/v1/reportes/**
+          filters:
+            - RewritePath=/api/v1/reportes/v3/api-docs, /v3/api-docs
 
         - id: ms-reservas-route
           uri: lb://ms-reservas
           predicates:
             - Path=/api/v1/reservas/**, /api/v1/estados-reserva/**
+          filters:
+            - RewritePath=/api/v1/reservas/v3/api-docs, /v3/api-docs
 
         - id: ms-sucursales-route
           uri: lb://ms-sucursales
           predicates:
             - Path=/api/v1/sucursales/**
+          filters:
+            - RewritePath=/api/v1/sucursales/v3/api-docs, /v3/api-docs
 
         - id: ms-vehiculos-route
           uri: lb://ms-vehiculos
           predicates:
             - Path=/api/vehiculos/**
+          filters:
+            - RewritePath=/api/vehiculos/v3/api-docs, /v3/api-docs
+
+# CONFIGURACIÓN PARA UNIFICAR LOS SWAGGERS EN EL GATEWAY
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: Microservicio Clientes
+        url: /api/clientes/v3/api-docs
+      - name: Microservicio Empleados
+        url: /api/v1/empleados/v3/api-docs
+      - name: Microservicio Pagos
+        url: /api/pagos/v3/api-docs
+      - name: Microservicio Reportes
+        url: /api/v1/reportes/v3/api-docs
+      - name: Microservicio Reservas
+        url: /api/v1/reservas/v3/api-docs
+      - name: Microservicio Sucursales
+        url: /api/v1/sucursales/v3/api-docs
+      - name: Microservicio Vehículos
+        url: /api/vehiculos/v3/api-docs
 
 eureka:
   client:
