@@ -45,6 +45,17 @@ spring:
           predicates:
             - Path=/api/vehiculos/**
 
+# CONFIGURACIÓN PARA UNIFICAR LOS SWAGGERS EN EL GATEWAY
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: Microservicio Clientes
+        url: /api/clientes/v3/api-docs
+      - name: Microservicio Vehículos
+        url: /api/vehiculos/v3/api-docs
+      # Nota: Iremos agregando los demás aquí abajo a medida que los configures
+
 eureka:
   client:
     service-url:

@@ -36,10 +36,10 @@ databaseChangeLog:
             columns:
               - column:
                   name: nombre_reporte
-                  value: Reporte Mensual
+                  value: "Reporte Mensual"
               - column:
                   name: fecha_generacion
-                  value: 2026-06-18 10:00:00
+                  value: "2026-06-18 10:00:00"
               - column:
                   name: contenido
-                  value: Contenido del reporte mensual...
+                  value: "Contenido del reporte mensual..."
