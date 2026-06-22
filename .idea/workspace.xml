@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c8e4296c-cfe0-44d0-bf2f-17c3c36a45be" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka_serves/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka_serves/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka_serves/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka_serves/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka_serves/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka_serves/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka_serves/src/main/java/com/example/eureka_serves/EurekaServesApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka_serves/src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka_serves/src/test/java/com/example/eureka_serves/EurekaServesApplicationTests.java" beforeDir="false" />
-    </list>
+    <list default="true" id="c8e4296c-cfe0-44d0-bf2f-17c3c36a45be" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

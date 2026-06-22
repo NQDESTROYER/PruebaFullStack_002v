@@ -1,0 +1,165 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - spring-cloud-net
+
+  eureka-server:
+    build:
+      context: ./eureka_server
+    container_name: eureka-server
+    restart: always
+    ports:
+      - "8761:8761"
+    networks:
+      - spring-cloud-net
+
+  api-gateway:
+    build:
+      context: ./api_gateway
+    container_name: api-gateway
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+    networks:
+      - spring-cloud-net
+
+  ms-clientes:
+    build:
+      context: ./ms-clientes
+    container_name: ms-clientes
+    restart: always
+    depends_on:
+      - mysql-db
+      - eureka-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/db_clientes?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+    networks:
+      - spring-cloud-net
+
+  ms-empleados:
+    build:
+      context: ./ms-empleados
+    container_name: ms-empleados
+    restart: always
+    depends_on:
+      - mysql-db
+      - eureka-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/db_empleados?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+    networks:
+      - spring-cloud-net
+
+  ms-pagos:
+    build:
+      context: ./ms-pagos
+    container_name: ms-pagos
+    restart: always
+    depends_on:
+      - mysql-db
+      - eureka-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/db_pagos?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+    networks:
+      - spring-cloud-net
+
+  ms-reportes:
+    build:
+      context: ./ms-reportes
+    container_name: ms-reportes
+    restart: always
+    depends_on:
+      - mysql-db
+      - eureka-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/db_reportes?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+    networks:
+      - spring-cloud-net
+
+  ms-reservas:
+    build:
+      context: ./ms-reservas
+    container_name: ms-reservas
+    restart: always
+    depends_on:
+      - mysql-db
+      - eureka-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/db_reservas?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+    networks:
+      - spring-cloud-net
+
+  ms-sucursales:
+    build:
+      context: ./ms-sucursales
+    container_name: ms-sucursales
+    restart: always
+    depends_on:
+      - mysql-db
+      - eureka-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/db_sucursales?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+    networks:
+      - spring-cloud-net
+
+  ms-vehiculos:
+    build:
+      context: ./ms-vehiculos
+    container_name: ms-vehiculos
+    restart: always
+    depends_on:
+      - mysql-db
+      - eureka-server
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/db_vehiculos?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+    networks:
+      - spring-cloud-net
+
+networks:
+  spring-cloud-net:
+    driver: bridge
