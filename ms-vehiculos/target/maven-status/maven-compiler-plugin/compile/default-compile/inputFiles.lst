@@ -1,0 +1,16 @@
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\assemblers\VehiculoModelAssembler.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\model\Categoria.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\dto\VehiculosResponseDTO.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\dto\VehiculoRequestDTO.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\service\VehiculoServiceImpl.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\config\SwaggerConfig.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\model\Vehiculo.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\repository\VehiculoRepository.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\repository\CategoriaRepository.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\controller\VehiculoController.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\service\IVehiculoService.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\mapper\VehiculoMapper.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\config\DataInitializer.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\exception\ResourceNotFoundException.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\MsVehiculosApplication.java
+C:\Users\monto\Desktop\evaluacion 3 fullstack\PruebaFullStack_002v\ms-vehiculos\src\main\java\com\example\ms_vehiculos\exception\GlobalExceptionHandler.java
