@@ -9,21 +9,24 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ms-reservas" />
         <module name="ms-sucursales" />
-        <module name="ms-reportes" />
         <module name="api-gateway" />
+        <module name="ms-reportes" />
         <module name="ms-clientes" />
         <module name="ms-empleados" />
-        <module name="ms-pagos" />
         <module name="eureka-server" />
+        <module name="ms-pagos" />
         <module name="ms-vehiculos" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel>
+      <module name="eureka-server (1)" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-gateway" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
+      <module name="eureka-server (1)" options="-parameters" />
       <module name="ms-clientes" options="-parameters" />
       <module name="ms-empleados" options="-parameters" />
       <module name="ms-pagos" options="-parameters" />
