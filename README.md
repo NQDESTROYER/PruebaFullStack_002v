@@ -68,6 +68,8 @@ El componente analítico centralizado de la arquitectura. Su función principal 
   * `GET /api/v1/reportes/consolidado` : Dispara las llamadas concurrentes a `ms-pagos` y `ms-reservas`, calcula totales unificados de registros y genera el balance analítico.
 
 ---
+swagger: http://localhost:8080/webjars/swagger-ui/index.html?urls.primaryName=Microservicio%20Sucursales
+eurecka: http://localhost:8761
 
 ## 🚀 Flujo de Comunicación Inter-Servicio (OpenFeign)
 
