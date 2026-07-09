@@ -2,10 +2,7 @@ package com.example.ms_vehiculos.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,6 +41,9 @@ public class Categoria {
     @Column(name = "fecha_registro", nullable = false)
     private LocalDateTime fechaRegistro;
 
+    // --- EL ESCUDO CONTRA EL STACKOVERFLOW ---
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL)
     private List<Vehiculo> vehiculos;
 }
