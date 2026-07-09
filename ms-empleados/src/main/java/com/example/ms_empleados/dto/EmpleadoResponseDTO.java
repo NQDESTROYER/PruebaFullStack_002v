@@ -21,5 +21,5 @@ public class EmpleadoResponseDTO {
     private BigDecimal sueldoBase;
     private Boolean conContratoIndefinido;
     private LocalDate fechaContratacion;
-
+    private Boolean activo;
 }

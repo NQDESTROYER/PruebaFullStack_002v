@@ -39,6 +39,6 @@ public class Empleado {
     @Column(nullable = false)
     private LocalDate fechaContratacion;
 
-
+    @Column(nullable = false)
+    private Boolean activo;
 }
-

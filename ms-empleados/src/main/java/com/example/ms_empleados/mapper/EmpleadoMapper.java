@@ -17,6 +17,7 @@ public class EmpleadoMapper {
                 .sueldoBase(dto.getSueldoBase())
                 .conContratoIndefinido(dto.getConContratoIndefinido())
                 .fechaContratacion(dto.getFechaContratacion())
+                .activo(dto.getActivo())
                 .build();
     }
 
@@ -31,7 +32,7 @@ public class EmpleadoMapper {
                 .sueldoBase(entity.getSueldoBase())
                 .conContratoIndefinido(entity.getConContratoIndefinido())
                 .fechaContratacion(entity.getFechaContratacion())
+                .activo(entity.getActivo())
                 .build();
     }
 }
-

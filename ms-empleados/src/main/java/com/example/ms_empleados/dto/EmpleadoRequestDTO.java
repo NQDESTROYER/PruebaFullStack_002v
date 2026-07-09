@@ -35,4 +35,7 @@ public class EmpleadoRequestDTO {
     @NotNull(message = "La fecha de contratación es obligatoria")
     @PastOrPresent(message = "La fecha de contratación no puede ser una fecha futura")
     private LocalDate fechaContratacion;
+
+    @NotNull(message = "Debe especificar si el empleado está activo")
+    private Boolean activo;
 }
