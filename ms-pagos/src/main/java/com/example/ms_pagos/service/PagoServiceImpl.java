@@ -10,8 +10,13 @@ import com.example.ms_pagos.model.MetodoPago;
 import com.example.ms_pagos.model.Pago;
 import com.example.ms_pagos.repository.MetodoPagoRepository;
 import com.example.ms_pagos.repository.PagoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -25,9 +30,9 @@ public class PagoServiceImpl implements PagoService {
     private final ReservaClient reservaClient;
     private final PagoMapper pagoMapper;
 
-    public PagoServiceImpl(PagoRepository pagoRepository, 
-                           MetodoPagoRepository metodoPagoRepository, 
-                           ReservaClient reservaClient, 
+    public PagoServiceImpl(PagoRepository pagoRepository,
+                           MetodoPagoRepository metodoPagoRepository,
+                           ReservaClient reservaClient,
                            PagoMapper pagoMapper) {
         this.pagoRepository = pagoRepository;
         this.metodoPagoRepository = metodoPagoRepository;
@@ -77,5 +82,18 @@ public class PagoServiceImpl implements PagoService {
         // 4. Guardar y retornar respuesta mapeada
         Pago pagoGuardado = pagoRepository.save(pago);
         return pagoMapper.toResponseDTO(pagoGuardado);
+    }
+
+    // 5. NUEVO MÉTODO: Paginación y filtrado por rango de monto
+    @Override
+    public Page<PagoResponseDTO> obtenerPagosPorRango(BigDecimal min, BigDecimal max, int page, int size) {
+        // Configuramos la paginación y le decimos que ordene por fechaPago de forma descendente
+        Pageable pageable = PageRequest.of(page, size, Sort.by("fechaPago").descending());
+
+        // Obtenemos la página desde el repositorio
+        Page<Pago> pagosPage = pagoRepository.findPagosByMontoRange(min, max, pageable);
+
+        // La interfaz Page tiene un método .map() nativo que facilita mucho convertir de Entidad a DTO
+        return pagosPage.map(pagoMapper::toResponseDTO);
     }
 }
