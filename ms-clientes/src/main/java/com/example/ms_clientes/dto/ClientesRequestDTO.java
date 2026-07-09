@@ -37,9 +37,5 @@ public class ClientesRequestDTO {
     @Past(message = "La fecha de nacimiento debe ser una fecha del pasado")
     private LocalDate fechaNacimiento;
 
-    @NotBlank(message = "El email es obligatorio")
-    @Email(message = "Debe tener un formato de correo válido")
-    private String email;
-
 
 }

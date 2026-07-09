@@ -19,6 +19,5 @@ public class ClienteResponseDTO {
     private BigDecimal ingresoMensual;
     private Boolean activo;
     private LocalDate fechaNacimiento;
-    private String email;
 
 }

@@ -45,8 +45,12 @@ public class ClienteServiceImpl implements IClienteService{
         Cliente clienteExistente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No se puede actualizar. Cliente no encontrado con el ID: " + id));
 
-        // Llamamos al mapper que acabas de crear
-        clienteMapper.actualizarEntidad(dto, clienteExistente);
+        // Actualizamos los datos de la entidad con lo que viene del DTO
+        clienteExistente.setRut(dto.getRut());
+        clienteExistente.setNombreCompleto(dto.getNombreCompleto());
+        clienteExistente.setIngresoMensual(dto.getIngresoMensual());
+        clienteExistente.setActivo(dto.getActivo() != null ? dto.getActivo() : true);
+        clienteExistente.setFechaNacimiento(dto.getFechaNacimiento());
 
         Cliente actualizado = clienteRepository.save(clienteExistente);
         return clienteMapper.toResponseDTO(actualizado);

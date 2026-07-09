@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ReservaMapper {
+
     public Reserva toEntity(ReservaRequestDTO dto) {
         if (dto == null) return null;
         Reserva reserva = new Reserva();
@@ -17,6 +18,9 @@ public class ReservaMapper {
         reserva.setSeguroIncluido(dto.getSeguroIncluido());
         reserva.setClienteId(dto.getClienteId());
         reserva.setVehiculoId(dto.getVehiculoId());
+
+        // El estadoId no se mapea aquí directamente a la entidad EstadoReserva.
+        // Por el patrón CSR, buscar la entidad en BD a partir del ID es responsabilidad exclusiva del Service.
         return reserva;
     }
 
@@ -39,4 +43,3 @@ public class ReservaMapper {
         return dto;
     }
 }
-

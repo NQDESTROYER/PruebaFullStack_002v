@@ -33,8 +33,8 @@ public class EstadoReserva {
     @Column(name = "fecha_creacion", nullable = false)
     private LocalDate fechaCreacion;
 
-    // Relación OneToMany
-    @OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
+    // Retiramos el cascade = CascadeType.ALL para proteger las reservas.
+    // Solo mapeamos la relación bidireccional.
+    @OneToMany(mappedBy = "estado")
     private List<Reserva> reservas;
 }
-

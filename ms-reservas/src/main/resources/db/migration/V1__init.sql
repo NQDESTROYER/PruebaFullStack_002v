@@ -1,5 +1,5 @@
 -- 1. Tabla Padre: Estados de Reserva
-CREATE TABLE estados_reserva (
+CREATE TABLE IF NOT EXISTS estados_reserva (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_estado VARCHAR(50) NOT NULL UNIQUE,
     descripcion VARCHAR(150) NOT NULL,
@@ -8,8 +8,8 @@ CREATE TABLE estados_reserva (
     fecha_creacion DATE NOT NULL
 );
 
--- 2. Tabla Hija: Reservas (Con referencias a los otros microservicios)
-CREATE TABLE reservas (
+-- 2. Tabla Hija: Reservas
+CREATE TABLE IF NOT EXISTS reservas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     codigo_reserva VARCHAR(50) NOT NULL UNIQUE,
     fecha_inicio DATE NOT NULL,
@@ -17,12 +17,12 @@ CREATE TABLE reservas (
     monto_total DECIMAL(10,2) NOT NULL,
     seguro_incluido BOOLEAN NOT NULL,
     estado_id INT NOT NULL,
-    cliente_id INT NOT NULL,   -- Viene de ms-clientes (8081)
-    vehiculo_id INT NOT NULL,  -- Viene de ms-vehiculos (8082)
+    cliente_id INT NOT NULL,   -- ms-clientes
+    vehiculo_id INT NOT NULL,  -- ms-vehiculos
     CONSTRAINT fk_estado_reserva FOREIGN KEY (estado_id) REFERENCES estados_reserva(id)
 );
 
--- 3. Población de datos inicial (3 filas por tabla)
+-- 3. Población de datos inicial (Consistente con las columnas)
 INSERT INTO estados_reserva (nombre_estado, descripcion, permite_modificacion, nivel_prioridad, fecha_creacion)
 VALUES
 ('CONFIRMADA', 'Reserva pagada y lista para uso', false, 1, CURRENT_DATE),

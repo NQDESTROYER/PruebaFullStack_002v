@@ -13,6 +13,7 @@ public class ReservaModelAssembler implements RepresentationModelAssembler<Reser
 
     @Override
     public EntityModel<ReservaResponseDTO> toModel(ReservaResponseDTO entity) {
+        // HATEOAS inyectado correctamente: enlace al recurso individual y a la colección completa
         return EntityModel.of(entity,
                 linkTo(methodOn(ReservaController.class).obtenerPorId(entity.getId())).withSelfRel(),
                 linkTo(methodOn(ReservaController.class).obtenerTodas()).withRel("reservas"));

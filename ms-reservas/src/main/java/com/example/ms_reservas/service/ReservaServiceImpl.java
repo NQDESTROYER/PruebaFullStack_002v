@@ -10,6 +10,7 @@ import com.example.ms_reservas.exception.ResourceNotFoundException;
 import com.example.ms_reservas.mapper.ReservaMapper;
 import com.example.ms_reservas.repository.EstadoReservaRepository;
 import com.example.ms_reservas.repository.ReservaRepository;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,6 @@ public class ReservaServiceImpl implements ReservaService {
     private final ReservaRepository reservaRepository;
     private final EstadoReservaRepository estadoRepository;
     private final ReservaMapper reservaMapper;
-
-    // Inyectamos los clientes Feign
     private final ClienteClient clienteClient;
     private final VehiculoClient vehiculoClient;
 
@@ -57,33 +56,47 @@ public class ReservaServiceImpl implements ReservaService {
     @Override
     @Transactional
     public ReservaResponseDTO crear(ReservaRequestDTO dto) {
-        log.info("Creando reserva, validando datos externos...");
+        log.info("Creando reserva, validando reglas de negocio y datos externos...");
 
-        // 1. Validar que el cliente exista en el ms-clientes (puerto 8081)
+        // Regla de Negocio 1: Coherencia de fechas
+        if (dto.getFechaFin().isBefore(dto.getFechaInicio()) || dto.getFechaFin().isEqual(dto.getFechaInicio())) {
+            log.warn("Intento de reserva con fechas inconsistentes");
+            throw new IllegalArgumentException("La fecha de fin debe ser estrictamente posterior a la fecha de inicio.");
+        }
+
+        // Regla de Negocio 2: Validar cliente externo
         try {
             clienteClient.obtenerClientePorId(dto.getClienteId());
             log.info("Cliente {} validado correctamente", dto.getClienteId());
-        } catch (Exception e) {
-            log.error("Fallo comunicación con ms-clientes o cliente no existe.");
+        } catch (FeignException e) {
+            log.error("Fallo comunicación con ms-clientes o cliente no existe. Error: {}", e.status());
             throw new ResourceNotFoundException("El cliente ID " + dto.getClienteId() + " no existe o el servicio no responde.");
         }
 
-        // 2. Validar que el vehículo exista en el ms-vehiculos (puerto 8082)
+        // Regla de Negocio 3: Validar vehículo externo
         try {
             vehiculoClient.obtenerVehiculoPorId(dto.getVehiculoId());
             log.info("Vehículo {} validado correctamente", dto.getVehiculoId());
-        } catch (Exception e) {
-            log.error("Fallo comunicación con ms-vehiculos o vehículo no existe.");
+        } catch (FeignException e) {
+            log.error("Fallo comunicación con ms-vehiculos o vehículo no existe. Error: {}", e.status());
             throw new ResourceNotFoundException("El vehículo ID " + dto.getVehiculoId() + " no existe o el servicio no responde.");
         }
 
-        // 3. Obtener el estado de la reserva local
-        EstadoReserva estado = estadoRepository.findById(dto.getEstadoId())
-                .orElseThrow(() -> new ResourceNotFoundException("Estado de reserva inválido."));
+        // Regla de Negocio 4: Validar disponibilidad (evitar doble arriendo simultáneo)
+        // Asumimos que un auto con estado "CONFIRMADA" no puede ser arrendado nuevamente.
+        boolean autoOcupado = reservaRepository.existsByVehiculoIdAndEstado_NombreEstado(dto.getVehiculoId(), "CONFIRMADA");
+        if (autoOcupado) {
+            log.warn("El vehículo ID {} ya se encuentra con una reserva confirmada.", dto.getVehiculoId());
+            throw new IllegalArgumentException("El vehículo seleccionado ya se encuentra reservado y no está disponible.");
+        }
 
-        // 4. Guardar
+        EstadoReserva estado = estadoRepository.findById(dto.getEstadoId())
+                .orElseThrow(() -> new ResourceNotFoundException("Estado de reserva inválido con ID: " + dto.getEstadoId()));
+
         Reserva reserva = reservaMapper.toEntity(dto);
         reserva.setEstado(estado);
+
+        log.info("Guardando nueva reserva en base de datos");
         return reservaMapper.toDto(reservaRepository.save(reserva));
     }
 
@@ -94,8 +107,13 @@ public class ReservaServiceImpl implements ReservaService {
         Reserva reservaExistente = reservaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Reserva no encontrada con ID: " + id));
 
+        // Mismas reglas de negocio para fechas en la actualización
+        if (dto.getFechaFin().isBefore(dto.getFechaInicio()) || dto.getFechaFin().isEqual(dto.getFechaInicio())) {
+            throw new IllegalArgumentException("La fecha de fin debe ser estrictamente posterior a la fecha de inicio.");
+        }
+
         EstadoReserva estado = estadoRepository.findById(dto.getEstadoId())
-                .orElseThrow(() -> new ResourceNotFoundException("Estado de reserva inválido."));
+                .orElseThrow(() -> new ResourceNotFoundException("Estado de reserva inválido con ID: " + dto.getEstadoId()));
 
         reservaExistente.setCodigoReserva(dto.getCodigoReserva());
         reservaExistente.setFechaInicio(dto.getFechaInicio());
@@ -113,8 +131,9 @@ public class ReservaServiceImpl implements ReservaService {
     @Transactional
     public void eliminar(Integer id) {
         log.info("Eliminando reserva ID: {}", id);
-        if(!reservaRepository.existsById(id)) throw new ResourceNotFoundException("Reserva inexistente");
+        if(!reservaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Reserva inexistente con ID: " + id);
+        }
         reservaRepository.deleteById(id);
     }
 }
-

@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Data
 public class ReservaRequestDTO {
+
     @NotBlank(message = "El código de reserva es obligatorio")
     private String codigoReserva;
 
@@ -15,6 +16,7 @@ public class ReservaRequestDTO {
     private LocalDate fechaInicio;
 
     @NotNull(message = "La fecha de fin es obligatoria")
+    @Future(message = "La fecha de fin debe estar en el futuro")
     private LocalDate fechaFin;
 
     @NotNull(message = "El monto total es obligatorio")
@@ -25,11 +27,14 @@ public class ReservaRequestDTO {
     private Boolean seguroIncluido;
 
     @NotNull(message = "El ID del estado es obligatorio")
+    @Positive(message = "El ID del estado debe ser mayor a cero")
     private Integer estadoId;
 
     @NotNull(message = "El ID del cliente es obligatorio")
+    @Positive(message = "El ID del cliente debe ser mayor a cero")
     private Integer clienteId;
 
     @NotNull(message = "El ID del vehículo es obligatorio")
+    @Positive(message = "El ID del vehículo debe ser mayor a cero")
     private Integer vehiculoId;
 }

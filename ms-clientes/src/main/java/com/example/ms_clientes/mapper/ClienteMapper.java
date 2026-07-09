@@ -15,7 +15,6 @@ public class ClienteMapper {
         return Cliente.builder()
                 .rut(dto.getRut())
                 .nombreCompleto(dto.getNombreCompleto())
-                .email(dto.getEmail()) //
                 .ingresoMensual(dto.getIngresoMensual())
                 .activo(dto.getActivo())
                 .fechaNacimiento(dto.getFechaNacimiento())
@@ -28,26 +27,13 @@ public class ClienteMapper {
         }
 
         return ClienteResponseDTO.builder()
-                .id(entity.getId())
+                .id(entity.getId()) // Aquí sí mapeamos el ID generado por la BD
                 .rut(entity.getRut())
                 .nombreCompleto(entity.getNombreCompleto())
-                .email(entity.getEmail()) //
                 .ingresoMensual(entity.getIngresoMensual())
                 .activo(entity.isActivo())
                 .fechaNacimiento(entity.getFechaNacimiento())
                 .build();
     }
 
-    public void actualizarEntidad(ClientesRequestDTO dto, Cliente entity) {
-        if (dto == null || entity == null) {
-            return;
-        }
-
-        entity.setRut(dto.getRut());
-        entity.setNombreCompleto(dto.getNombreCompleto());
-        entity.setEmail(dto.getEmail()); //
-        entity.setIngresoMensual(dto.getIngresoMensual());
-        entity.setActivo(dto.getActivo() != null ? dto.getActivo() : true);
-        entity.setFechaNacimiento(dto.getFechaNacimiento());
-    }
 }

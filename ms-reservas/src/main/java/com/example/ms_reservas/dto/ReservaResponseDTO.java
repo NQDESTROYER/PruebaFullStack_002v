@@ -1,11 +1,14 @@
 package com.example.ms_reservas.dto;
 
+import org.springframework.hateoas.RepresentationModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-public class ReservaResponseDTO {
+@EqualsAndHashCode(callSuper = false)
+public class ReservaResponseDTO extends RepresentationModel<ReservaResponseDTO> {
     private Integer id;
     private String codigoReserva;
     private LocalDate fechaInicio;
@@ -13,7 +16,7 @@ public class ReservaResponseDTO {
     private BigDecimal montoTotal;
     private Boolean seguroIncluido;
     private Integer estadoId;
-    private String nombreEstado; // Añadido para que el cliente vea el nombre en vez de solo el ID
+    private String nombreEstado;
     private Integer clienteId;
     private Integer vehiculoId;
 }
