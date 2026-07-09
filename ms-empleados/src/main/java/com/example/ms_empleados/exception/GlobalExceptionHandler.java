@@ -7,23 +7,29 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice// escucha todos los controladores de microservicios
+@RestControllerAdvice // Escucha todos los controladores de microservicios
 public class GlobalExceptionHandler {
 
-    //1. Capturar cuando un empleado no existe(error 404)
-    @ExceptionHandler(com.example.ms_empleados.exception.ResourceNotFoundException.class)
-    public ResponseEntity<Map<String, String>> manejarResourceNotFound(com.example.ms_empleados.exception.ResourceNotFoundException ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", "Recurso no encontrado");
-        error.put("mensaje", ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    // 1. Capturar cuando un empleado no existe (error 404)
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> manejarResourceNotFound(ResourceNotFoundException ex) {
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.NOT_FOUND.value())
+                .error("Recurso no encontrado")
+                .message(ex.getMessage())
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    // 2. Capturar errores de validación (error 400)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> manejarValidaciones(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> manejarValidaciones(MethodArgumentNotValidException ex) {
         Map<String, String> errores = new HashMap<>();
 
         // Recorre cada campo inválido y extrae su mensaje personalizado
@@ -33,6 +39,13 @@ public class GlobalExceptionHandler {
             errores.put(nombreCampo, mensajeError);
         });
 
-        return new ResponseEntity<>(errores, HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error("Error de validación en los datos enviados")
+                .message(errores) // Pasamos el mapa de errores al DTO
+                .build();
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }
