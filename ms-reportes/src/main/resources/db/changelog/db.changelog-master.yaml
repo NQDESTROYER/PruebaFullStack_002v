@@ -44,6 +44,7 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: false
+
   - changeSet:
       id: 2-poblar-datos-iniciales
       author: tomas
@@ -72,3 +73,19 @@ databaseChangeLog:
               - column: { name: total_registros, value: 8 }
               - column: { name: fecha_emision, value: "2026-05-17" }
               - column: { name: description, value: "Rendimiento geográfico de sedes" }
+        - insert:
+            tableName: reportes
+            columns:
+              - column: { name: nombre_reporte, value: "Clientes con Pagos Atrasados" }
+              - column: { name: categoria, value: "RIESGO" }
+              - column: { name: total_registros, value: 14 }
+              - column: { name: fecha_emision, value: "2026-06-01" }
+              - column: { name: description, value: "Listado de morosidad mayor a 30 días" }
+        - insert:
+            tableName: reportes
+            columns:
+              - column: { name: nombre_reporte, value: "Proyección Ingresos Q3" }
+              - column: { name: categoria, value: "GERENCIA" }
+              - column: { name: total_registros, value: 350 }
+              - column: { name: fecha_emision, value: "2026-07-01" }
+              - column: { name: description, value: "Estimación basada en reservas futuras" }
