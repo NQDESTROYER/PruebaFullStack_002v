@@ -19,7 +19,6 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -77,7 +76,7 @@ public class ReservaServiceImplTest {
         reservaEntity.setId(100);
         reservaEntity.setCodigoReserva("RES-12345");
         reservaEntity.setFechaInicio(LocalDate.now());
-        reservaEntity.setFechaFin(LocalDate.now().plusDays(5)) ;
+        reservaEntity.setFechaFin(LocalDate.now().plusDays(5));
         reservaEntity.setMontoTotal(java.math.BigDecimal.valueOf(50000.0));
         reservaEntity.setSeguroIncluido(true);
         reservaEntity.setClienteId(10);
@@ -87,7 +86,7 @@ public class ReservaServiceImplTest {
 
     @Test
     void listarTodas_Exito() {
-        when(reservaRepository.findAll()).thenReturn(Arrays.asList(reservaEntity));
+        when(reservaRepository.findAll()).thenReturn(Collections.singletonList(reservaEntity));
 
         List<ReservaResponseDTO> result = reservaService.listarTodas();
 
@@ -100,7 +99,7 @@ public class ReservaServiceImplTest {
     @Test
     void buscarDesdeFecha_Exito() {
         LocalDate now = LocalDate.now();
-        when(reservaRepository.buscarDesdeFecha(now)).thenReturn(Arrays.asList(reservaEntity));
+        when(reservaRepository.buscarDesdeFecha(now)).thenReturn(Collections.singletonList(reservaEntity));
 
         List<ReservaResponseDTO> result = reservaService.buscarDesdeFecha(now);
 
@@ -125,17 +124,16 @@ public class ReservaServiceImplTest {
     void obtenerPorId_NoExiste_LanzaExcepcion() {
         when(reservaRepository.findById(100)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            reservaService.obtenerPorId(100);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> reservaService.obtenerPorId(100));
 
         verify(reservaRepository, times(1)).findById(100);
     }
 
     @Test
     void crear_Exito() {
-        when(clienteClient.obtenerClientePorId(10)).thenReturn(new Object());
-        when(vehiculoClient.obtenerVehiculoPorId(20)).thenReturn(new Object());
+        // Devolver null suele ser suficiente si el servicio solo comprueba que no arroje error 404.
+        when(clienteClient.obtenerClientePorId(10)).thenReturn(null);
+        when(vehiculoClient.obtenerVehiculoPorId(20)).thenReturn(null);
         when(estadoRepository.findById(1)).thenReturn(Optional.of(estado));
         when(reservaRepository.save(any(Reserva.class))).thenReturn(reservaEntity);
 
@@ -153,9 +151,7 @@ public class ReservaServiceImplTest {
     void crear_ClienteNoExiste_LanzaExcepcion() {
         when(clienteClient.obtenerClientePorId(10)).thenThrow(new RuntimeException("Cliente no encontrado"));
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            reservaService.crear(requestDTO);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> reservaService.crear(requestDTO));
 
         verify(clienteClient, times(1)).obtenerClientePorId(10);
         verifyNoInteractions(vehiculoClient);
@@ -165,12 +161,10 @@ public class ReservaServiceImplTest {
 
     @Test
     void crear_VehiculoNoExiste_LanzaExcepcion() {
-        when(clienteClient.obtenerClientePorId(10)).thenReturn(new Object());
+        when(clienteClient.obtenerClientePorId(10)).thenReturn(null);
         when(vehiculoClient.obtenerVehiculoPorId(20)).thenThrow(new RuntimeException("Vehiculo no encontrado"));
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            reservaService.crear(requestDTO);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> reservaService.crear(requestDTO));
 
         verify(clienteClient, times(1)).obtenerClientePorId(10);
         verify(vehiculoClient, times(1)).obtenerVehiculoPorId(20);
@@ -180,13 +174,11 @@ public class ReservaServiceImplTest {
 
     @Test
     void crear_EstadoNoExiste_LanzaExcepcion() {
-        when(clienteClient.obtenerClientePorId(10)).thenReturn(new Object());
-        when(vehiculoClient.obtenerVehiculoPorId(20)).thenReturn(new Object());
+        when(clienteClient.obtenerClientePorId(10)).thenReturn(null);
+        when(vehiculoClient.obtenerVehiculoPorId(20)).thenReturn(null);
         when(estadoRepository.findById(1)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            reservaService.crear(requestDTO);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> reservaService.crear(requestDTO));
 
         verify(clienteClient, times(1)).obtenerClientePorId(10);
         verify(vehiculoClient, times(1)).obtenerVehiculoPorId(20);
@@ -213,9 +205,7 @@ public class ReservaServiceImplTest {
     void actualizar_NoExiste_LanzaExcepcion() {
         when(reservaRepository.findById(100)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            reservaService.actualizar(100, requestDTO);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> reservaService.actualizar(100, requestDTO));
 
         verify(reservaRepository, times(1)).findById(100);
         verifyNoInteractions(estadoRepository);
@@ -236,9 +226,7 @@ public class ReservaServiceImplTest {
     void eliminar_NoExiste_LanzaExcepcion() {
         when(reservaRepository.existsById(100)).thenReturn(false);
 
-        assertThrows(ResourceNotFoundException.class, () -> {
-            reservaService.eliminar(100);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> reservaService.eliminar(100));
 
         verify(reservaRepository, times(1)).existsById(100);
         verify(reservaRepository, never()).deleteById(anyInt());
