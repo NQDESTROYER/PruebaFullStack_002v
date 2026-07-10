@@ -1,5 +1,6 @@
 package com.example.ms_clientes.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -36,6 +38,16 @@ public class ClientesRequestDTO {
     @NotNull(message = "La fecha de nacimiento no puede ser nula")
     @Past(message = "La fecha de nacimiento debe ser una fecha del pasado")
     private LocalDate fechaNacimiento;
+
+    @NotBlank(message = "El email es obligatorio")
+    @Email(message = "Debe tener un formato de correo válido")
+    private String email;
+
+    // ... tus otros campos (rut, nombre, email, etc.) ...
+
+    @NotEmpty(message = "El cliente debe tener al menos una dirección registrada")
+    @Valid // ¡Crucial! Esto le dice a Spring que valide también las reglas dentro de DireccionRequestDTO
+    private List<DireccionRequestDTO> direcciones;
 
 
 }

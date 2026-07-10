@@ -7,17 +7,20 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ClienteResponseDTO {
+
     private Integer id;
     private String rut;
     private String nombreCompleto;
+    private String email;
     private BigDecimal ingresoMensual;
-    private Boolean activo;
+    private boolean activo;
     private LocalDate fechaNacimiento;
-
+    private List<DireccionResponseDTO> direcciones;
 }
